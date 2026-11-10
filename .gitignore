@@ -1,0 +1,11 @@
+library
+library.exe
+*.o
+books.txt
+users.txt
+requests.txt
+loans.txt
+history.txt
+
+# graft's local graph cache — regenerable, not committed (run `graft build`).
+/graft/
