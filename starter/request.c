@@ -2,11 +2,10 @@
 Done by: Amina
 
 What we will do in this file:
-- add request to the queue
-- take request from the front
+- enqueue / dequeue (queue)
 - show waiting requests
-- check if user already asked for that book
-- approve or reject requests
+- student requests a book
+- staff approve or reject
 */
 
 #include "library.h"
@@ -30,6 +29,7 @@ void enqueue(int id, const char *username, int bookId)
         queueRear->next = node;
         queueRear = node;
     }
+
     if (id >= nextRequestId) {
         nextRequestId = id + 1;
     }
@@ -53,16 +53,18 @@ void showRequests(const char *username)
     (void)username;
 }
 
-int hasPendingRequest(const char *username, int bookId)
+void requestBook(void)
 {
-    Request *temp = queueFront;
-    while (temp != NULL) {
-        if (strcmp(temp->username, username) == 0 && temp->bookId == bookId) {
-            return 1;
-        }
-        temp = temp->next;
+    int id = readInt("Book ID to request: ");
+    Book *b = findBook(id);
+
+    if (b == NULL) {
+        printf("Book not found.\n");
+        return;
     }
-    return 0;
+
+    enqueue(nextRequestId, currentUser->username, id);
+    printf("Request sent for \"%s\".\n", b->title);
 }
 
 void processRequests(void)

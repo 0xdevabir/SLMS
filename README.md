@@ -1,43 +1,50 @@
 # Smart Library Management System (C, Data Structure Lab)
 
-Console C program with three roles: **Student**, **Staff**, **Librarian**.
-Built with **linked lists**, a **queue**, a **stack**, file I/O, and switch menus.
+Beginner console C program with three roles: **Student**, **Staff**, **Librarian**.
+
+Uses linked lists, a queue, a stack, file I/O, and switch menus.
 
 | Data structure | Used for |
 |---|---|
-| Singly linked list | books, users, cart, loans |
-| Queue (linked) | borrow requests (first come, first served) |
-| Stack (linked) | check-in / check-out history (newest first) |
+| Singly linked list | books, users, loans |
+| Queue (linked) | borrow requests |
+| Stack (linked) | borrow / return history |
+
+## Simple flow
+
+1. Student requests a book → goes into the **queue**
+2. Staff/librarian **approves** → book is borrowed (loan list)
+3. Student **returns** the book
+4. Each borrow/return is pushed on the **history stack**
+
+No cart. No separate check-out step. Only two loan statuses: Borrowed / Returned.
 
 ## Files (`src/`)
 
 | File | Contents |
 |---|---|
-| `library.h` | constants, structs, extern globals, all prototypes |
-| `main.c` | program start, main menu |
+| `library.h` | constants, structs, prototypes |
+| `main.c` | start, login / exit |
 | `menu.c` | student / staff / librarian menus |
 | `utils.c` | input helpers, date, `newNode` |
-| `book.c` | book linked list, add/delete/search |
-| `user.c` | user linked list, register, delete, login |
-| `cart.c` | cart linked list |
-| `request.c` | borrow request queue, approve/reject |
-| `loan.c` | loans, check-out, check-in |
+| `book.c` | book linked list |
+| `user.c` | user linked list, login |
+| `request.c` | request queue, approve / reject |
+| `loan.c` | loans, return book |
 | `history.c` | history stack |
-| `file.c` | save/load all data |
+| `file.c` | save / load |
 
 ## Build and run
 
 ```bash
 cd src
 gcc *.c -o library
-./library            # Windows: library.exe
+./library
 ```
 
-In Code::Blocks, create a Console application project and add all files from `src/`.
+First login: `admin` / `admin123` (created on first run with sample books).
 
-First login: `admin` / `admin123` (created on first run along with 5 sample books).
+Data files: `books.txt`, `users.txt`, `requests.txt`, `loans.txt`, `history.txt`.
+Delete them to start fresh.
 
-Data is saved to `books.txt`, `users.txt`, `requests.txt`, `loans.txt`, `history.txt`
-in the folder you run from. Delete them to start fresh.
-
-`SLMS_Guide.pdf` explains every part of the code and every data structure from zero.
+Team starter (partial work) is in `starter/`.

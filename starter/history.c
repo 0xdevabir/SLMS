@@ -2,9 +2,8 @@
 Done by: Anika
 
 What we will do in this file:
-- push check-out / check-in on the stack
-- show history (new ones first)
-- let staff see one student’s history
+- push borrow / return on stack
+- show history (newest first)
 */
 
 #include "library.h"
@@ -25,8 +24,4 @@ void pushHistory(const char *username, int bookId, const char *action, const cha
 void showHistory(const char *username)
 {
     (void)username;
-}
-
-void viewStudentHistory(void)
-{
 }

@@ -2,12 +2,10 @@
 Done by: Touhid
 
 What we will do in this file:
-- start the program
-- load data from files
-- if no data yet, make admin and some books
-- show login / exit menu
-- call login
-- save data when user exits
+- start program
+- load data or make default admin
+- login / exit menu
+- save when exit
 */
 
 #include "library.h"
@@ -38,4 +36,3 @@ int main(void)
         }
     }
 }
-

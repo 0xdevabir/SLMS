@@ -2,11 +2,10 @@
 Done by: Touhid
 
 What we will do in this file:
-- save books, users, requests, loans, history to .txt files
-- load that data back into the lists
-- if no files yet, tell main it is first run
-- make first admin and some sample books
-- one line = one record, use | between fields
+- save books and users to txt
+- load them back
+- later also requests, loans, history
+- create admin + sample books on first run
 */
 
 #include "library.h"
@@ -17,16 +16,20 @@ void saveAll(void)
 
     f = fopen(BOOK_FILE, "w");
     if (f != NULL) {
-        for (Book *b = bookHead; b != NULL; b = b->next) {
+        Book *b = bookHead;
+        while (b != NULL) {
             fprintf(f, "%d|%s|%s|%d|%d\n", b->id, b->title, b->author, b->total, b->available);
+            b = b->next;
         }
         fclose(f);
     }
 
     f = fopen(USER_FILE, "w");
     if (f != NULL) {
-        for (User *u = userHead; u != NULL; u = u->next) {
+        User *u = userHead;
+        while (u != NULL) {
             fprintf(f, "%s|%s|%s|%d\n", u->username, u->password, u->name, u->role);
+            u = u->next;
         }
         fclose(f);
     }
@@ -72,5 +75,5 @@ void createDefaultData(void)
     addBook(nextBookId, "Data Structures in C", "Reema Thareja", 2, 2);
     addBook(nextBookId, "Let Us C", "Yashavant Kanetkar", 4, 4);
     saveAll();
-    printf("First run: default librarian created (admin / admin123).\n");
+    printf("First run: admin / admin123 created.\n");
 }

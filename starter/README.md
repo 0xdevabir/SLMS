@@ -1,4 +1,4 @@
-# SLMS starter
+# SLMS starter (beginner)
 
 Team: Abir, Touhid, Anika, Amina, Ardi
 
@@ -19,16 +19,21 @@ Anika
 - history.c
 
 Amina
-- cart.c
 - request.c
 
 Ardi
 - menu.c
 
-Finished code for help is in `../src/`.
+Finished beginner code is in `../src/`.
 
 ```bash
 cd starter
 gcc *.c -o library
 ./library
 ```
+
+Flow (simple):
+1. Student requests a book (queue)
+2. Staff / librarian approve → loan starts
+3. Student returns the book
+4. History stack keeps borrow / return

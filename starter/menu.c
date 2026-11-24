@@ -2,11 +2,10 @@
 Done by: Ardi
 
 What we will do in this file:
-- make student menu
-- make staff menu
-- make librarian menu
-- connect each menu choice to the right function
-- save data after changes
+- student menu
+- staff menu
+- librarian menu
+- connect choices to functions
 */
 
 #include "library.h"
@@ -17,15 +16,11 @@ void studentMenu(void)
         printf("\n===== STUDENT MENU =====\n");
         printf("1. Show all books\n");
         printf("2. Search book\n");
-        printf("3. Add book to cart\n");
-        printf("4. Remove from cart\n");
-        printf("5. Show my cart\n");
-        printf("6. Submit cart (borrow requests)\n");
-        printf("7. My requests\n");
-        printf("8. Check out approved book\n");
-        printf("9. Check in (return) book\n");
-        printf("10. My loans\n");
-        printf("11. My history\n");
+        printf("3. Request a book\n");
+        printf("4. My requests\n");
+        printf("5. My loans\n");
+        printf("6. Return a book\n");
+        printf("7. My history\n");
         printf("0. Logout\n");
 
         switch (readInt("Choice: ")) {
@@ -36,27 +31,17 @@ void studentMenu(void)
                 searchBooks();
                 break;
             case 3:
-                addToCart();
+                requestBook();
                 break;
             case 4:
                 break;
             case 5:
-                showCart();
                 break;
             case 6:
                 break;
             case 7:
                 break;
-            case 8:
-                break;
-            case 9:
-                break;
-            case 10:
-                break;
-            case 11:
-                break;
             case 0:
-                clearCart();
                 return;
             default:
                 printf("Invalid choice.\n");
@@ -70,11 +55,10 @@ void staffMenu(void)
         printf("\n===== STAFF MENU =====\n");
         printf("1. Show all books\n");
         printf("2. Search book\n");
-        printf("3. Check stock\n");
-        printf("4. View pending requests\n");
-        printf("5. Approve / reject requests\n");
+        printf("3. View requests\n");
+        printf("4. Approve / reject\n");
+        printf("5. View loans\n");
         printf("6. View history\n");
-        printf("7. Books currently with students\n");
         printf("0. Logout\n");
 
         switch (readInt("Choice: ")) {
@@ -92,8 +76,6 @@ void staffMenu(void)
                 break;
             case 6:
                 break;
-            case 7:
-                break;
             case 0:
                 return;
             default:
@@ -106,22 +88,18 @@ void librarianMenu(void)
 {
     while (1) {
         printf("\n===== LIBRARIAN MENU =====\n");
-        printf("--- Staff features ---\n");
-        printf(" 1. Show all books\n");
-        printf(" 2. Search book\n");
-        printf(" 3. Check stock\n");
-        printf(" 4. View pending requests\n");
-        printf(" 5. Approve / reject requests\n");
-        printf(" 6. View history\n");
-        printf(" 7. Books with students\n");
-        printf("--- Librarian features ---\n");
-        printf(" 8. Register user\n");
-        printf(" 9. Delete user\n");
-        printf("10. Show all users\n");
-        printf("11. Add book\n");
-        printf("12. Delete book\n");
-        printf("13. Update copies\n");
-        printf(" 0. Logout\n");
+        printf("1. Show all books\n");
+        printf("2. Search book\n");
+        printf("3. View requests\n");
+        printf("4. Approve / reject\n");
+        printf("5. View loans\n");
+        printf("6. View history\n");
+        printf("7. Register user\n");
+        printf("8. Delete user\n");
+        printf("9. Show users\n");
+        printf("10. Add book\n");
+        printf("11. Delete book\n");
+        printf("0. Logout\n");
 
         switch (readInt("Choice: ")) {
             case 1:
@@ -143,17 +121,13 @@ void librarianMenu(void)
             case 8:
                 break;
             case 9:
-                break;
-            case 10:
                 showAllUsers();
                 break;
-            case 11:
+            case 10:
                 newBook();
                 saveAll();
                 break;
-            case 12:
-                break;
-            case 13:
+            case 11:
                 break;
             case 0:
                 return;
