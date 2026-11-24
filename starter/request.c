@@ -17,14 +17,35 @@ int nextRequestId = 1;
 
 void enqueue(int id, const char *username, int bookId)
 {
-    (void)id;
-    (void)username;
-    (void)bookId;
+    Request *node = newNode(sizeof(Request));
+    node->id = id;
+    strcpy(node->username, username);
+    node->bookId = bookId;
+    node->next = NULL;
+
+    if (queueRear == NULL) {
+        queueFront = node;
+        queueRear = node;
+    } else {
+        queueRear->next = node;
+        queueRear = node;
+    }
+    if (id >= nextRequestId) {
+        nextRequestId = id + 1;
+    }
 }
 
 Request *dequeue(void)
 {
-    return NULL;
+    if (queueFront == NULL) {
+        return NULL;
+    }
+    Request *node = queueFront;
+    queueFront = queueFront->next;
+    if (queueFront == NULL) {
+        queueRear = NULL;
+    }
+    return node;
 }
 
 void showRequests(const char *username)
@@ -34,12 +55,16 @@ void showRequests(const char *username)
 
 int hasPendingRequest(const char *username, int bookId)
 {
-    (void)username;
-    (void)bookId;
+    Request *temp = queueFront;
+    while (temp != NULL) {
+        if (strcmp(temp->username, username) == 0 && temp->bookId == bookId) {
+            return 1;
+        }
+        temp = temp->next;
+    }
     return 0;
 }
 
 void processRequests(void)
 {
 }
-

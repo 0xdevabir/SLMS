@@ -53,8 +53,19 @@ int readInt(const char *prompt)
 
 int containsIgnoreCase(const char *text, const char *word)
 {
-    (void)text;
-    (void)word;
+    char a[100], b[100];
+    int i;
+    for (i = 0; text[i] != '\0' && i < 99; i++) {
+        a[i] = tolower((unsigned char)text[i]);
+    }
+    a[i] = '\0';
+    for (i = 0; word[i] != '\0' && i < 99; i++) {
+        b[i] = tolower((unsigned char)word[i]);
+    }
+    b[i] = '\0';
+    if (strstr(a, b) != NULL) {
+        return 1;
+    }
     return 0;
 }
 
@@ -91,5 +102,3 @@ const char *statusName(int status)
         default:              return "Returned";
     }
 }
-
-

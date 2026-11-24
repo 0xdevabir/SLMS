@@ -50,7 +50,6 @@ int deleteBookNode(int id)
         prev = temp;
         temp = temp->next;
     }
-
     if (temp == NULL) {
         return 0;
     }
@@ -60,34 +59,24 @@ int deleteBookNode(int id)
     } else {
         prev->next = temp->next;
     }
-
     free(temp);
     return 1;
-}
-
-void printBookHeader(void)
-{
-    printf("\n%-5s %-32s %-22s %-6s %-6s\n", "ID", "Title", "Author", "Total", "Avail");
-    printf("--------------------------------------------------------------------------\n");
-}
-
-void printBook(Book *b)
-{
-    printf("%-5d %-32.32s %-22.22s %-6d %-6d\n",
-           b->id, b->title, b->author, b->total, b->available);
 }
 
 void showAllBooks(void)
 {
     if (bookHead == NULL) {
-        printf("\nNo books in the library.\n");
+        printf("\nNo books yet.\n");
         return;
     }
 
-    printBookHeader();
+    printf("\n%-5s %-30s %-20s %-6s %-6s\n", "ID", "Title", "Author", "Total", "Avail");
+    printf("--------------------------------------------------------------------\n");
+
     Book *temp = bookHead;
     while (temp != NULL) {
-        printBook(temp);
+        printf("%-5d %-30.30s %-20.20s %-6d %-6d\n",
+               temp->id, temp->title, temp->author, temp->total, temp->available);
         temp = temp->next;
     }
 }
@@ -97,41 +86,26 @@ void searchBooks(void)
     char key[100];
     int found = 0;
 
-    readLine("Enter title or author to search: ", key, sizeof(key));
+    readLine("Search title or author: ", key, sizeof(key));
 
     Book *temp = bookHead;
     while (temp != NULL) {
         if (containsIgnoreCase(temp->title, key) ||
             containsIgnoreCase(temp->author, key)) {
             if (found == 0) {
-                printBookHeader();
+                printf("\n%-5s %-30s %-20s %-6s %-6s\n", "ID", "Title", "Author", "Total", "Avail");
+                printf("--------------------------------------------------------------------\n");
             }
-            printBook(temp);
+            printf("%-5d %-30.30s %-20.20s %-6d %-6d\n",
+                   temp->id, temp->title, temp->author, temp->total, temp->available);
             found++;
         }
         temp = temp->next;
     }
 
     if (found == 0) {
-        printf("No book matched \"%s\".\n", key);
-    } else {
-        printf("%d book(s) found.\n", found);
+        printf("No match found.\n");
     }
-}
-
-void checkStock(void)
-{
-    int id = readInt("Enter book ID: ");
-    Book *b = findBook(id);
-
-    if (b == NULL) {
-        printf("Book not found.\n");
-        return;
-    }
-
-    printBookHeader();
-    printBook(b);
-    printf("Borrowed / reserved copies: %d\n", b->total - b->available);
 }
 
 void newBook(void)
@@ -140,9 +114,9 @@ void newBook(void)
     char author[60];
     int copies;
 
-    readLine("Book title: ", title, sizeof(title));
+    readLine("Title: ", title, sizeof(title));
     readLine("Author: ", author, sizeof(author));
-    copies = readInt("Number of copies: ");
+    copies = readInt("Copies: ");
 
     if (copies <= 0) {
         printf("Copies must be at least 1.\n");
@@ -150,58 +124,23 @@ void newBook(void)
     }
 
     Book *b = addBook(nextBookId, title, author, copies, copies);
-    printf("Book added with ID %d.\n", b->id);
+    printf("Added. Book ID = %d\n", b->id);
 }
 
 void removeBook(void)
 {
-    int id = readInt("Enter book ID to delete: ");
+    int id = readInt("Book ID to delete: ");
     Book *b = findBook(id);
-    int choice;
 
     if (b == NULL) {
         printf("Book not found.\n");
         return;
     }
-
     if (b->available != b->total) {
-        printf("Some copies are borrowed or reserved. Cannot delete now.\n");
+        printf("Some copies are out. Cannot delete.\n");
         return;
     }
 
-    printf("Delete \"%s\"? 1. Yes  0. No\n", b->title);
-    choice = readInt("Choice: ");
-
-    if (choice == 1) {
-        deleteBookNode(id);
-        printf("Book deleted.\n");
-    } else {
-        printf("Nothing deleted.\n");
-    }
-}
-
-void updateCopies(void)
-{
-    int id = readInt("Enter book ID: ");
-    Book *b = findBook(id);
-    int out;
-    int newTotal;
-
-    if (b == NULL) {
-        printf("Book not found.\n");
-        return;
-    }
-
-    out = b->total - b->available;
-    printf("Total now: %d  (out with students: %d)\n", b->total, out);
-    newTotal = readInt("New total copies: ");
-
-    if (newTotal < out) {
-        printf("Total cannot be less than copies that are out (%d).\n", out);
-        return;
-    }
-
-    b->total = newTotal;
-    b->available = newTotal - out;
-    printf("Updated. Available now: %d\n", b->available);
+    deleteBookNode(id);
+    printf("Book deleted.\n");
 }

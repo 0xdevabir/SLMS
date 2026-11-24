@@ -13,10 +13,13 @@ History *historyTop = NULL;
 
 void pushHistory(const char *username, int bookId, const char *action, const char *date)
 {
-    (void)username;
-    (void)bookId;
-    (void)action;
-    (void)date;
+    History *node = newNode(sizeof(History));
+    strcpy(node->username, username);
+    node->bookId = bookId;
+    strcpy(node->action, action);
+    strcpy(node->date, date);
+    node->next = historyTop;
+    historyTop = node;
 }
 
 void showHistory(const char *username)
@@ -27,4 +30,3 @@ void showHistory(const char *username)
 void viewStudentHistory(void)
 {
 }
-

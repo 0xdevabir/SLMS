@@ -17,22 +17,50 @@ Loan *loanHead = NULL;
 
 void addLoan(int id, const char *username, int bookId, int status)
 {
-    (void)id;
-    (void)username;
-    (void)bookId;
-    (void)status;
+    Loan *node = newNode(sizeof(Loan));
+    node->id = id;
+    strcpy(node->username, username);
+    node->bookId = bookId;
+    node->status = status;
+    node->next = NULL;
+
+    if (loanHead == NULL) {
+        loanHead = node;
+    } else {
+        Loan *temp = loanHead;
+        while (temp->next != NULL) {
+            temp = temp->next;
+        }
+        temp->next = node;
+    }
+    if (id >= nextRequestId) {
+        nextRequestId = id + 1;
+    }
 }
 
 Loan *findLoan(int id)
 {
-    (void)id;
+    Loan *temp = loanHead;
+    while (temp != NULL) {
+        if (temp->id == id) {
+            return temp;
+        }
+        temp = temp->next;
+    }
     return NULL;
 }
 
 int hasActiveLoan(const char *username, int bookId)
 {
-    (void)username;
-    (void)bookId;
+    Loan *temp = loanHead;
+    while (temp != NULL) {
+        if (strcmp(temp->username, username) == 0 &&
+            temp->bookId == bookId &&
+            temp->status != STATUS_RETURNED) {
+            return 1;
+        }
+        temp = temp->next;
+    }
     return 0;
 }
 
@@ -55,4 +83,3 @@ void checkOutBook(void)
 void checkInBook(void)
 {
 }
-

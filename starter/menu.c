@@ -30,14 +30,18 @@ void studentMenu(void)
 
         switch (readInt("Choice: ")) {
             case 1:
+                showAllBooks();
                 break;
             case 2:
+                searchBooks();
                 break;
             case 3:
+                addToCart();
                 break;
             case 4:
                 break;
             case 5:
+                showCart();
                 break;
             case 6:
                 break;
@@ -52,6 +56,7 @@ void studentMenu(void)
             case 11:
                 break;
             case 0:
+                clearCart();
                 return;
             default:
                 printf("Invalid choice.\n");
@@ -74,8 +79,10 @@ void staffMenu(void)
 
         switch (readInt("Choice: ")) {
             case 1:
+                showAllBooks();
                 break;
             case 2:
+                searchBooks();
                 break;
             case 3:
                 break;
@@ -118,8 +125,10 @@ void librarianMenu(void)
 
         switch (readInt("Choice: ")) {
             case 1:
+                showAllBooks();
                 break;
             case 2:
+                searchBooks();
                 break;
             case 3:
                 break;
@@ -136,8 +145,11 @@ void librarianMenu(void)
             case 9:
                 break;
             case 10:
+                showAllUsers();
                 break;
             case 11:
+                newBook();
+                saveAll();
                 break;
             case 12:
                 break;
@@ -150,4 +162,3 @@ void librarianMenu(void)
         }
     }
 }
-

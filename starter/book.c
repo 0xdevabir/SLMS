@@ -20,18 +20,40 @@ int nextBookId = 1;
 
 Book *findBook(int id)
 {
-    (void)id;
+    Book *temp = bookHead;
+    while (temp != NULL) {
+        if (temp->id == id) {
+            return temp;
+        }
+        temp = temp->next;
+    }
     return NULL;
 }
 
 Book *addBook(int id, const char *title, const char *author, int total, int available)
 {
-    (void)id;
-    (void)title;
-    (void)author;
-    (void)total;
-    (void)available;
-    return NULL;
+    Book *node = newNode(sizeof(Book));
+    node->id = id;
+    strcpy(node->title, title);
+    strcpy(node->author, author);
+    node->total = total;
+    node->available = available;
+    node->next = NULL;
+
+    if (bookHead == NULL) {
+        bookHead = node;
+    } else {
+        Book *temp = bookHead;
+        while (temp->next != NULL) {
+            temp = temp->next;
+        }
+        temp->next = node;
+    }
+
+    if (id >= nextBookId) {
+        nextBookId = id + 1;
+    }
+    return node;
 }
 
 int deleteBookNode(int id)
@@ -54,10 +76,43 @@ void printBook(Book *b)
 
 void showAllBooks(void)
 {
+    if (bookHead == NULL) {
+        printf("\nNo books in the library.\n");
+        return;
+    }
+    printBookHeader();
+    Book *temp = bookHead;
+    while (temp != NULL) {
+        printBook(temp);
+        temp = temp->next;
+    }
 }
 
 void searchBooks(void)
 {
+    char key[100];
+    int found = 0;
+
+    readLine("Enter title or author to search: ", key, sizeof(key));
+
+    Book *temp = bookHead;
+    while (temp != NULL) {
+        if (containsIgnoreCase(temp->title, key) ||
+            containsIgnoreCase(temp->author, key)) {
+            if (found == 0) {
+                printBookHeader();
+            }
+            printBook(temp);
+            found++;
+        }
+        temp = temp->next;
+    }
+
+    if (found == 0) {
+        printf("No book matched \"%s\".\n", key);
+    } else {
+        printf("%d book(s) found.\n", found);
+    }
 }
 
 void checkStock(void)
@@ -66,6 +121,21 @@ void checkStock(void)
 
 void newBook(void)
 {
+    char title[100];
+    char author[60];
+    int copies;
+
+    readLine("Book title: ", title, sizeof(title));
+    readLine("Author: ", author, sizeof(author));
+    copies = readInt("Number of copies: ");
+
+    if (copies <= 0) {
+        printf("Copies must be at least 1.\n");
+        return;
+    }
+
+    Book *b = addBook(nextBookId, title, author, copies, copies);
+    printf("Book added with ID %d.\n", b->id);
 }
 
 void removeBook(void)
@@ -75,5 +145,3 @@ void removeBook(void)
 void updateCopies(void)
 {
 }
-
-
