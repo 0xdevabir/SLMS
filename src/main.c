@@ -1,15 +1,8 @@
-/*
- * main.c - the program starts here
- *
- * Compile : gcc *.c -o library
- * Run     : ./library        (Windows: library.exe)
- * First login: username = admin   password = admin123
- */
 #include "library.h"
 
 int main(void)
 {
-    if (loadAll() == 1) {          /* 1 means: first run, no saved data */
+    if (loadAll() == 1) {
         createDefaultData();
     }
 
