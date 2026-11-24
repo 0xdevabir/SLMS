@@ -2,13 +2,11 @@
 Done by: Abir
 
 What we will do in this file:
-- find user by username
-- add user to the list
-- delete user from the list
+- find / add / delete user
 - show all users
-- register student or staff
-- remove a user safely
-- login and open the right menu
+- register user
+- remove user
+- login
 */
 
 #include "library.h"
@@ -57,10 +55,12 @@ int deleteUserNode(const char *username)
 void showAllUsers(void)
 {
     printf("\n%-15s %-25s %-10s\n", "Username", "Name", "Role");
-    printf("----------------------------------------------------\n");
+    printf("------------------------------------------------\n");
+
     User *temp = userHead;
     while (temp != NULL) {
-        printf("%-15s %-25.25s %-10s\n", temp->username, temp->name, roleName(temp->role));
+        printf("%-15s %-25.25s %-10s\n",
+               temp->username, temp->name, roleName(temp->role));
         temp = temp->next;
     }
 }
@@ -76,6 +76,7 @@ void removeUser(void)
 void login(void)
 {
     char username[30], password[30];
+
     readLine("Username: ", username, sizeof(username));
     readLine("Password: ", password, sizeof(password));
 
@@ -84,19 +85,16 @@ void login(void)
         printf("Wrong username or password.\n");
         return;
     }
-    currentUser = u;
-    printf("\nWelcome, %s! You are logged in as %s.\n", u->name, roleName(u->role));
 
-    switch (u->role) {
-        case ROLE_STUDENT:
-            studentMenu();
-            break;
-        case ROLE_STAFF:
-            staffMenu();
-            break;
-        default:
-            librarianMenu();
-            break;
+    currentUser = u;
+    printf("\nWelcome, %s (%s)\n", u->name, roleName(u->role));
+
+    if (u->role == ROLE_STUDENT) {
+        studentMenu();
+    } else if (u->role == ROLE_STAFF) {
+        staffMenu();
+    } else {
+        librarianMenu();
     }
 
     currentUser = NULL;

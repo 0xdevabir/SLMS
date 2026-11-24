@@ -2,12 +2,10 @@
 Done by: Abir
 
 What we will do in this file:
-- put role numbers (student, staff, librarian)
-- put loan status numbers
-- put the .txt file names
-- make the structs (book, user, cart, request, loan, history)
-- write the list heads used in other files
-- write the function names so every .c file can use them
+- role numbers and loan status
+- file names
+- structs for book, user, request, loan, history
+- list heads and function names
 */
 
 #ifndef LIBRARY_H
@@ -23,9 +21,8 @@ What we will do in this file:
 #define ROLE_STAFF     2
 #define ROLE_LIBRARIAN 3
 
-#define STATUS_APPROVED 1
-#define STATUS_BORROWED 2
-#define STATUS_RETURNED 3
+#define STATUS_BORROWED 1
+#define STATUS_RETURNED 2
 
 #define BOOK_FILE    "books.txt"
 #define USER_FILE    "users.txt"
@@ -50,11 +47,6 @@ typedef struct User {
     struct User *next;
 } User;
 
-typedef struct CartItem {
-    int bookId;
-    struct CartItem *next;
-} CartItem;
-
 typedef struct Request {
     int  id;
     char username[30];
@@ -78,16 +70,16 @@ typedef struct History {
     struct History *next;
 } History;
 
-extern Book     *bookHead;
-extern int       nextBookId;
-extern User     *userHead;
-extern User     *currentUser;
-extern CartItem *cartHead;
-extern Request  *queueFront;
-extern Request  *queueRear;
-extern int       nextRequestId;
-extern Loan     *loanHead;
-extern History  *historyTop;
+extern Book    *bookHead;
+extern int      nextBookId;
+extern User    *userHead;
+extern User    *currentUser;
+extern Request *queueFront;
+extern Request *queueRear;
+extern int      nextRequestId;
+extern Loan    *loanHead;
+extern int      nextLoanId;
+extern History *historyTop;
 
 void  readLine(const char *prompt, char *buf, int size);
 int   readInt(const char *prompt);
@@ -95,19 +87,14 @@ int   containsIgnoreCase(const char *text, const char *word);
 void  getDate(char *buf, int size);
 void *newNode(int size);
 const char *roleName(int role);
-const char *statusName(int status);
 
 Book *findBook(int id);
 Book *addBook(int id, const char *title, const char *author, int total, int available);
 int   deleteBookNode(int id);
-void  printBookHeader(void);
-void  printBook(Book *b);
 void  showAllBooks(void);
 void  searchBooks(void);
-void  checkStock(void);
 void  newBook(void);
 void  removeBook(void);
-void  updateCopies(void);
 
 User *findUser(const char *username);
 void  addUser(const char *username, const char *password, const char *name, int role);
@@ -117,30 +104,20 @@ void  registerUser(void);
 void  removeUser(void);
 void  login(void);
 
-int   cartContains(int bookId);
-void  addToCart(void);
-void  removeFromCart(void);
-void  showCart(void);
-void  clearCart(void);
-void  submitCart(void);
-
 void     enqueue(int id, const char *username, int bookId);
 Request *dequeue(void);
 void     showRequests(const char *username);
-int      hasPendingRequest(const char *username, int bookId);
+void     requestBook(void);
 void     processRequests(void);
 
 void  addLoan(int id, const char *username, int bookId, int status);
 Loan *findLoan(int id);
-int   hasActiveLoan(const char *username, int bookId);
 int   userHasActiveLoans(const char *username);
-void  showLoans(const char *username, int onlyActive);
-void  checkOutBook(void);
-void  checkInBook(void);
+void  showLoans(const char *username);
+void  returnBook(void);
 
 void  pushHistory(const char *username, int bookId, const char *action, const char *date);
 void  showHistory(const char *username);
-void  viewStudentHistory(void);
 
 void  saveAll(void);
 int   loadAll(void);
